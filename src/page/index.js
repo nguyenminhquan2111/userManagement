@@ -10,7 +10,7 @@ export default class Home extends Component {
     this.state = {
       userList: data,
       userEdit:null,
-      search:""
+      keyword:""
     };
   }
 
@@ -42,7 +42,9 @@ export default class Home extends Component {
     if(user.id){
       const index=this._findIndex(user.id)
       // console.log(index);
-      this.state.userList[index]=user;
+      if(index!==-1){
+        this.state.userList[index]=user;
+      }
       // console.log(this.state.userList[index]);
       userList = [...this.state.userList]
     }else{
@@ -61,30 +63,22 @@ export default class Home extends Component {
     })
   }
   
-  handleSearch = (event)=>{
-   this.state.search=event
-   let userList=[]
-   let arrSearch=()=>{
-     return this.state.userList.filter(item=>{
-       return item.name.toLowerCase().includes(this.state.search.toLowerCase())
-     })
-   }
-  if(this.state.search===""){
-    userList=data
-  }else{
-   userList=arrSearch()
-  }
-   this.setState({
-     userList
-   })
+  handleGetKeyword = (keyword)=>{
+    this.setState({
+      keyword
+    })
   }
 
   render() {
+    let {userList,keyword}=this.state
+    userList=userList.filter(item=>{
+      return item.name.toLowerCase().includes(keyword.toLowerCase())
+    })
     return (
       <div className="container">
         <h1 className="display-4 text-center my-3">User Management</h1>
         <div className="d-flex justify-content-between align-items-center">
-          <Search getUserSearch={this.handleSearch}/>
+          <Search getKeyword={this.handleGetKeyword}/>
           <button
             className="btn btn-success"
             data-toggle="modal"
@@ -99,7 +93,7 @@ export default class Home extends Component {
           </button>
         </div>
         <Users
-          userList={this.state.userList}
+          userList={userList}
           getUserDelete={this.handleDeleteUser}
           getUserEdit={this.handleGetUserEdit}
         />

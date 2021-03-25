@@ -24,6 +24,15 @@ export default class Modal extends Component {
         phoneNumber: userEdit.phoneNumber,
         type: userEdit.type,
       });
+    } else {
+      this.setState({
+        id: "",
+        username: "",
+        name: "",
+        email: "",
+        phoneNumber: "",
+        type: "",
+      });
     }
   }
 
