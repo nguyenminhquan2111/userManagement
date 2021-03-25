@@ -72,7 +72,7 @@ export default class Home extends Component {
   render() {
     let {userList,keyword}=this.state
     userList=userList.filter(item=>{
-      return item.name.toLowerCase().includes(keyword.toLowerCase())
+      return item.name.toLowerCase().includes(keyword.toLowerCase().trim())
     })
     return (
       <div className="container">
