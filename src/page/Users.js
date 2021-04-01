@@ -1,18 +1,17 @@
 import React, { Component } from "react";
 import UserItem from "./UserItem";
+import { connect } from "react-redux";
 
-export default class Users extends Component {
+class Users extends Component {
   renderListUser = () => {
-    const { userList } = this.props;
+    let { userList, keyword } = this.props;
+
+    userList = userList.filter((item) =>
+      item.name.toLowerCase().includes(keyword.toLowerCase().trim())
+    );
+
     return userList.map((item) => {
-      return (
-        <UserItem
-          key={item.id}
-          user={item}
-          getUserDelete={this.props.getUserDelete}
-          getUserEdit={this.props.getUserEdit}
-        />
-      );
+      return <UserItem key={item.id} user={item} />;
     });
   };
 
@@ -27,8 +26,6 @@ export default class Users extends Component {
               <th>Email</th>
               <th>Phone Number</th>
               <th>Type</th>
-              <th></th>
-              <th></th>
             </tr>
           </thead>
           <tbody>{this.renderListUser()}</tbody>
@@ -37,3 +34,12 @@ export default class Users extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userList: state.userReducer.userList,
+    keyword: state.userReducer.keyword,
+  };
+};
+
+export default connect(mapStateToProps, null)(Users);

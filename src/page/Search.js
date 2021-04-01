@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { actGetKeyword } from "../redux/action";
 
-export default class Search extends Component {
+class Search extends Component {
   render() {
     return (
       <input
@@ -13,3 +15,13 @@ export default class Search extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getKeyword: (keyword) => {
+      dispatch(actGetKeyword(keyword));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Search);
